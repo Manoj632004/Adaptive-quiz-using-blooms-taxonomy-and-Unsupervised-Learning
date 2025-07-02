@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contribute a Question</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h2>Contribute a Computer Science Question</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes">
+        {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+      <textarea name="question" rows="5" cols="50" placeholder="Enter your question..." required></textarea><br><br>
+      <button type="submit">Submit</button>
+    </form>
+    <br>
+    <button onclick="location.href='/'">Back to Home</button>
+  </div>
+</body>
+</html>
