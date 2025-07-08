@@ -7,8 +7,7 @@ import pandas as pd
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Needed for flash messages
 
-# Load the trained model pipeline
-pipeline = joblib.load("btl_model.pkl")  # Use your saved model here
+pipeline = joblib.load("btl_model.pkl") 
 
 QUESTIONS_JSON = "library.json"
 
@@ -30,10 +29,8 @@ def contribute():
             flash("Question cannot be empty.", "error")
             return redirect(url_for('contribute'))
 
-        # Run prediction
         btl = int(pipeline.predict([question])[0])
 
-        # Add to JSON
         with open(QUESTIONS_JSON, "r") as f:
             data = json.load(f)
 

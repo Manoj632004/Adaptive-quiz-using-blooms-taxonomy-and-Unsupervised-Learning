@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>CS BTL Quiz</title>
+  <title>CS Bloom's Taxonomy Quiz</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
   <div class="container">
-    <h1>CS BTL Quiz</h1>
-    <p>Explore your cognitive level based on Bloom’s Taxonomy</p>
+    <h1 class="title">Computer Science Quiz</h1>
+    <p class="subtitle">Assess your performance using Bloom’s Taxonomy Levels (BTL)</p>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
@@ -20,8 +20,10 @@
       {% endif %}
     {% endwith %}
 
-    <button onclick="location.href='/contribute'">Contribute Question</button>
-    <button onclick="location.href='quiz.html'">Take Quiz</button>
+    <div class="button-group">
+      <button onclick="location.href='/contribute'">Contribute Question</button>
+      <button onclick="location.href='quiz.html'">Take Quiz</button>
+    </div>
   </div>
 </body>
 </html>
