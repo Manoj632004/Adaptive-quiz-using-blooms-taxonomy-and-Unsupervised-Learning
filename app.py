@@ -1,50 +1,66 @@
-from flask import Flask, request, redirect, render_template, url_for, flash
+import streamlit as st
 import json
 import os
-import joblib  # for loading model
+import joblib
 import pandas as pd
 
-app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Needed for flash messages
-
-pipeline = joblib.load("btl_model.pkl") 
+pipeline = joblib.load("btl_model.pkl")
 
 QUESTIONS_JSON = "library.json"
 
-# Ensure JSON file exists
 if not os.path.exists(QUESTIONS_JSON):
     with open(QUESTIONS_JSON, "w") as f:
         json.dump([], f)
 
-@app.route('/')
-def home():
-    return render_template('index.html')
+st.set_page_config(page_title="BTL Questionnaire", layout="centered")
+st.title("BTL Level Classifier for Computer Science Questions")
 
-@app.route('/contribute', methods=['GET', 'POST'])
-def contribute():
-    if request.method == 'POST':
-        question = request.form.get('question')
+menu = ["Home", "Contribute Question", "Question Library"]
+choice = st.sidebar.radio("Navigation", menu)
 
+if choice == "Home":
+    st.subheader("Welcome!")
+    st.write("This app classifies computer science questions into Bloom's Taxonomy Levels (BTL).")
+    st.write("You can contribute new questions or explore the existing library.")
+
+elif choice == "✍ Contribute Question":
+    st.subheader("Contribute a Question")
+    question = st.text_area("Enter your question:")
+
+    if st.button("Classify & Save"):
         if not question.strip():
-            flash("Question cannot be empty.", "error")
-            return redirect(url_for('contribute'))
+            st.error("Question cannot be empty.")
+        else:
+            # Load existing data
+            with open(QUESTIONS_JSON, "r") as f:
+                data = json.load(f)
 
-        btl = int(pipeline.predict([question])[0])
+            # Check for duplicate (case-insensitive match)
+            if any(q["question"].strip().lower() == question.strip().lower() for q in data):
+                st.warning("⚠ This question already exists in the library.")
+            else:
+                # Predict BTL
+                btl = int(pipeline.predict([question])[0])
 
-        with open(QUESTIONS_JSON, "r") as f:
-            data = json.load(f)
+                # Add new question
+                data.append({
+                    "question": question.strip(),
+                    "predicted_btl": btl
+                })
 
-        data.append({
-            "question": question,
-            "predicted_btl": btl
-        })
+                # Save back to JSON
+                with open(QUESTIONS_JSON, "w") as f:
+                    json.dump(data, f, indent=4)
 
-        with open(QUESTIONS_JSON, "w") as f:
-            json.dump(data, f, indent=4)
+                st.success(f"Question classified as **BTL Level {btl}** and saved!")
 
-        flash("Question added and classified successfully!", "success")
-        return redirect(url_for('home'))
+elif choice == "📂 Question Library":
+    st.subheader("Question Library")
+    with open(QUESTIONS_JSON, "r") as f:
+        data = json.load(f)
 
-    return render_template('contribute.html')
-if __name__ == '__main__':
-    app.run(debug=True)
+    if data:
+        df = pd.DataFrame(data)
+        st.dataframe(df)
+    else:
+        st.info("No questions in the library yet.")
