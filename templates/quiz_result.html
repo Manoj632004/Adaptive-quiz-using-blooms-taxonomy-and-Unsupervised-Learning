@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz Result</title>
+</head>
+<body>
+<h1>Quiz Results</h1>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Category (BTL)</th>
+        <th>Correct</th>
+        <th>Total</th>
+    </tr>
+    {% for cat, data in results.items() %}
+    <tr>
+        <td>{{ cat }}</td>
+        <td>{{ data.correct }}</td>
+        <td>{{ data.total }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

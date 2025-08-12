@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Take Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+<h2>Question {{ q_number }} of {{ total }}</h2>
+<p>{{ question.question }}</p>
+
+<form method="POST">
+    {% if question.options and question.options|length > 0 %}
+        {% for option in question.options %}
+            <label>
+                <input type="radio" name="answer" value="{{ loop.index0 }}">
+                {{ option }}
+            </label><br>
+        {% endfor %}
+    {% else %}
+        <textarea name="answer" rows="4" cols="50" placeholder="Type your answer"></textarea>
+    {% endif %}
+
+    <br><br>
+    {% if is_last %}
+        <button type="submit">Finish</button>
+    {% else %}
+        <button type="submit">Next</button>
+    {% endif %}
+</form>
+
+</body>
+</html>
