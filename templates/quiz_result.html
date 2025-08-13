@@ -4,22 +4,34 @@
     <title>Quiz Result</title>
 </head>
 <body>
-<h1>Quiz Results</h1>
+    <h2>Quiz Results</h2>
+    {% if timed_out %}
+        <p style="color:#b00020;font-weight:bold;">Time’s up — quiz auto-submitted.</p>
+    {% endif %}
 
-<table border="1" cellpadding="10">
-    <tr>
-        <th>Category (BTL)</th>
-        <th>Correct</th>
-        <th>Total</th>
-    </tr>
-    {% for cat, data in results.items() %}
-    <tr>
-        <td>{{ cat }}</td>
-        <td>{{ data.correct }}</td>
-        <td>{{ data.total }}</td>
-    </tr>
-    {% endfor %}
-</table>
+    <p><strong>Total:</strong> {{ correct_count }} / {{ total_count }}</p>
 
+    <h3>BTL Level Performance</h3>
+    <table border="1" cellpadding="8" cellspacing="0">
+        <tr>
+            <th>BTL</th>
+            <th>Correct</th>
+            <th>Total</th>
+            <th>%</th>
+        </tr>
+        {% for btl, s in category_scores.items() %}
+        <tr>
+            <td>{{ btl }}</td>
+            <td>{{ s.correct }}</td>
+            <td>{{ s.total }}</td>
+            <td>{{ percentages[btl] }}%</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <form action="{{ url_for('index') }}" method="get">
+        <button type="submit">Back to Home</button>
+    </form>
 </body>
 </html>
