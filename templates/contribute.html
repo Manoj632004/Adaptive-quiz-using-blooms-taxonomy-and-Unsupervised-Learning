@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contribute a Question</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .correct-answer {
+      border: 2px solid green;
+    }
+    .option-input {
+      margin-top: 5px;
+      padding: 8px;
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Contribute a Computer Science Question</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes">
+        {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+      <textarea name="question" rows="4" cols="50" placeholder="Enter your question..." required></textarea><br><br>
+
+      <label>Correct Answer (Required):</label><br>
+      <input type="text" name="option0" class="option-input correct-answer" placeholder="Correct answer" required><br>
+
+      <label>Other Options (Optional):</label><br>
+      <input type="text" name="option1" class="option-input" placeholder="Option 2"><br>
+      <input type="text" name="option2" class="option-input" placeholder="Option 3"><br>
+      <input type="text" name="option3" class="option-input" placeholder="Option 4"><br><br>
+
+      <button type="submit">Submit</button>
+    </form>
+    <br>
+    <button onclick="location.href='/'">Back to Home</button>
+  </div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Take Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .timer {
+            font-size: 18px;
+            font-weight: 700;
+            color: #b00020;
+            position: fixed;
+            top: 10px;
+            right: 16px;
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 6px 10px;
+            border-radius: 6px;
+        }
+    </style>
+    <script>
+        let remaining = {{ remaining_time | int }};
+
+        function tick() {
+            const el = document.getElementById("timer");
+            if (!el) return;
+            const m = Math.floor(remaining / 60);
+            const s = remaining % 60;
+            el.textContent = (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+
+            if (remaining <= 0) {
+                // Auto submit when time is over
+                document.getElementById("quizForm").submit();
+                return;
+            }
+            remaining -= 1;
+        }
+
+        window.addEventListener("load", () => {
+            tick();
+            setInterval(tick, 1000);
+        });
+    </script>
+</head>
+<body>
+
+<div class="timer" id="timer"></div>
+
+<form id="quizForm" method="post" action="{{ url_for('take_quiz') }}">
+    <h3>Q{{ q_index + 1 }}. {{ question.question }}</h3>
+
+    {% if question.options and question.options|length > 0 %}
+        {% for option in question.options %}
+            <label style="display:block; margin-bottom:6px;">
+                <input type="radio" name="answer" value="{{ loop.index0 }}">
+                {{ option }}
+            </label>
+        {% endfor %}
+    {% else %}
+        <input type="text" name="answer" placeholder="Your answer" style="width:100%;max-width:580px;">
+    {% endif %}
+
+    <!-- Carry forward state (stateless across requests) -->
+    <input type="hidden" name="q_index" value="{{ q_index }}">
+    <input type="hidden" name="correct_count" value="{{ correct_count }}">
+    <input type="hidden" name="total_count" value="{{ total_count }}">
+    <input type="hidden" name="category_scores" value='{{ category_scores|tojson if category_scores is mapping else category_scores }}'>
+    <input type="hidden" name="questions_order" value="{{ questions_order }}">
+    <input type="hidden" name="started_at" value="{{ started_at }}">
+    <input type="hidden" name="duration" value="{{ duration }}">
+
+    <div style="margin-top:16px;">
+        <button type="submit">{{ "Finish" if is_last else "Next" }}</button>
+    </div>
+</form>
+
+</body>
+</html>
