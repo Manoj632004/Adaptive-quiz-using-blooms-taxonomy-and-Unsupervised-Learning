@@ -1,0 +1,39 @@
+{
+    "questions": [
+        {
+            "q_id": "q_1",
+            "question": "What type of language is python?",
+            "options": [
+                "OOP",
+                "Low Level",
+                "Static"
+            ],
+            "correct_option_index": 0,
+            "predicted_btl": 1
+        },
+        {
+            "q_id": "q_2",
+            "question": "How can you prematurely exit a loop using a specific keyword in Python?",
+            "options": [
+                "break",
+                "exit",
+                "quit",
+                "stop"
+            ],
+            "correct_option_index": 0,
+            "predicted_btl": 3
+        },
+        {
+            "q_id": "q_3",
+            "question": "What is the relationship between binary search trees and the concept of binary heaps?",
+            "options": [
+                "Both are types of binary trees.",
+                "BSTs are better for priority queues than heaps.",
+                "BSTs and heaps are the same.",
+                "Heaps are always implemented using trees."
+            ],
+            "correct_option_index": 0,
+            "predicted_btl": 3
+        }
+    ]
+}
