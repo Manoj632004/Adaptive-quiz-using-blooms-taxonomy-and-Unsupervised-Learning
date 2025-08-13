@@ -1,24 +1,21 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-import json, random, time, urllib.parse
+import json, random, time
 import joblib
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key' 
 
 LIBRARY_FILE = "library.json"
-DURATION_SECONDS = 20 * 60  # 20 minutes
+DURATION_SECONDS = 20 * 60 
 
-# Load question bank
 with open(LIBRARY_FILE, "r", encoding="utf-8") as f:
     QUESTIONS = json.load(f)["questions"]
 
 pipeline = joblib.load("btl_model.pkl") 
 
-# Quick lookup by q_id
 Q_BY_ID = {q["q_id"]: q for q in QUESTIONS}
 
 def empty_btl_scores():
-    # BTL 1..6; use strings as keys for consistency
     return {str(i): {"correct": 0, "total": 0} for i in range(1, 7)}
 
 def eval_answer(q, user_ans):
@@ -27,11 +24,9 @@ def eval_answer(q, user_ans):
     Returns True/False.
     """
     if q.get("correct_option_index") is not None:
-        # user_ans is expected to be an index (string)
         if user_ans is None or not str(user_ans).isdigit():
             return False
         return int(user_ans) == int(q["correct_option_index"])
-    # Fallback to text answer if provided
     correct_text = (q.get("answer") or "").strip().lower()
     if not correct_text:
         return False
@@ -99,11 +94,10 @@ def contribute():
 
 @app.route("/start_quiz")
 def start_quiz():
-    # Pick 25 random questions; store ONLY their q_ids (stateless)
     selected = random.sample(QUESTIONS, min(25, len(QUESTIONS)))
     order_ids = ",".join([q["q_id"] for q in selected])
 
-    started_at = int(time.time())  # epoch seconds
+    started_at = int(time.time()) 
 
     return redirect(url_for(
         "quiz_question",
@@ -121,7 +115,7 @@ def quiz_question():
     q_index = int(request.args["q_index"])
     correct_count = int(request.args["correct_count"])
     total_count = int(request.args["total_count"])
-    category_scores = request.args["category_scores"]  # JSON string
+    category_scores = request.args["category_scores"] 
     questions_order = request.args["questions_order"]
     started_at = int(request.args["started_at"])
     duration = int(request.args["duration"])
@@ -130,11 +124,9 @@ def quiz_question():
     q_id = order_list[q_index]
     question_obj = Q_BY_ID[q_id]
 
-    # Backend-enforced remaining time
     now = int(time.time())
     remaining_time = max(0, duration - (now - started_at))
 
-    # If time already up, finish immediately
     if remaining_time <= 0:
         return redirect(url_for(
             "quiz_result",
@@ -162,7 +154,6 @@ def quiz_question():
 
 @app.route("/take_quiz", methods=["POST"])
 def take_quiz():
-    # Read incoming fields
     q_index = int(request.form["q_index"])
     correct_count = int(request.form["correct_count"])
     total_count = int(request.form["total_count"])
@@ -175,11 +166,9 @@ def take_quiz():
     q_id = order_list[q_index]
     question_obj = Q_BY_ID[q_id]
 
-    # Enforce time on backend
     now = int(time.time())
     remaining_time = max(0, duration - (now - started_at))
 
-    # If time up, skip evaluation and finish
     if remaining_time <= 0:
         return redirect(url_for(
             "quiz_result",
@@ -189,12 +178,10 @@ def take_quiz():
             timed_out=1
         ))
 
-    # Evaluate this question
     user_ans = request.form.get("answer")
     btl_key = str(question_obj.get("predicted_btl", "Unknown"))
 
     total_count += 1
-    # Ensure key exists even if unexpected BTL appears
     if btl_key not in category_scores:
         category_scores[btl_key] = {"correct": 0, "total": 0}
 
@@ -203,7 +190,6 @@ def take_quiz():
         category_scores[btl_key]["correct"] += 1
     category_scores[btl_key]["total"] += 1
 
-    # Next or Finish
     q_index += 1
     if q_index >= len(order_list):
         return redirect(url_for(
@@ -214,7 +200,6 @@ def take_quiz():
             timed_out=0
         ))
 
-    # Continue to next question; keep same started_at/duration (no reset)
     return redirect(url_for(
         "quiz_question",
         q_index=q_index,
@@ -233,7 +218,6 @@ def quiz_result():
     category_scores = json.loads(request.args["category_scores"])
     timed_out = int(request.args.get("timed_out", 0))
 
-    # Compute percentages for convenience
     percentages = {}
     for btl, s in category_scores.items():
         tot = max(1, s.get("total", 0))
