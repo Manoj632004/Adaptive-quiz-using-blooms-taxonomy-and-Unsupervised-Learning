@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Starting Quiz...</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    #progress-container {
+      width: 50%;
+      background-color: #eee;
+      border-radius: 10px;
+      margin: 50px auto;
+      height: 30px;
+      position: relative;
+    }
+    #progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #4caf50;
+      border-radius: 10px;
+      text-align: center;
+      color: white;
+      line-height: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center;">Preparing Your Quiz...</h2>
+  <div id="progress-container">
+    <div id="progress-bar">0%</div>
+  </div>
+
+  <script>
+    let progress = 0;
+    let interval = setInterval(function() {
+      $.getJSON("/train_progress", function(data) {
+        progress = data.progress;
+        $("#progress-bar").css("width", progress + "%").text(progress + "%");
+        if (progress >= 100) {
+          clearInterval(interval);
+          window.location.href = "/start_quiz";  // redirect to quiz once ready
+        }
+      });
+    }, 1000);
+  </script>
+</body>
+</html>

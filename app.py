@@ -1,12 +1,17 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
+from sklearn.feature_extraction.text import TfidfVectorizer
 import json, random, time
 import joblib
+import numpy as np
+from tensorflow.keras import layers, models
+import jsonify
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key' 
 
 LIBRARY_FILE = "library.json"
 DURATION_SECONDS = 20 * 60 
+PREFERENCES = None
 
 with open(LIBRARY_FILE, "r", encoding="utf-8") as f:
     QUESTIONS = json.load(f)["questions"]
@@ -19,10 +24,6 @@ def empty_btl_scores():
     return {str(i): {"correct": 0, "total": 0} for i in range(1, 7)}
 
 def eval_answer(q, user_ans):
-    """
-    Supports MCQ via correct_option_index, and text via 'answer' (optional).
-    Returns True/False.
-    """
     if q.get("correct_option_index") is not None:
         if user_ans is None or not str(user_ans).isdigit():
             return False
@@ -32,6 +33,49 @@ def eval_answer(q, user_ans):
         return False
     return (user_ans or "").strip().lower() == correct_text
 
+def train_autoencoder(prefs, questions):
+    pref_vec = np.array([[prefs["remembering"], prefs["understanding"], prefs["applying"],
+                   prefs["analyzing"], prefs["evaluating"], prefs["creating"]]], dtype=np.float32)
+    
+    texts = [f"{q['topic']} {q['question']}" for q in questions]
+
+    vectorizer = TfidfVectorizer(max_features=500)
+    X_text = vectorizer.fit_transform(texts).toarray()
+
+    X = np.hstack([X_text, np.repeat(pref_vec, len(X_text), axis=0)])
+
+    input_dim = X.shape[1]
+    encoding_dim = 64
+
+    input_layer = layers.Input(shape=(input_dim,))
+    encoded = layers.Dense(encoding_dim, activation="relu")(input_layer)
+    decoded = layers.Dense(input_dim, activation="sigmoid")(encoded)
+
+    autoencoder = models.Model(input_layer, decoded)
+    autoencoder.compile(optimizer="adam", loss="mse")
+
+    autoencoder.fit(X, X, epochs=100, batch_size=1, verbose=0)
+
+    encoder = models.Model(input_layer, encoded)
+    return autoencoder, encoder, vectorizer
+
+def compute_difficulty(autoencoder, vectorizer, prefs, questions):
+    difficulties = []
+    pref_vec = np.array([[prefs["remembering"], prefs["understanding"], prefs["applying"],
+                          prefs["analyzing"], prefs["evaluating"], prefs["creating"]]], dtype=np.float32)
+
+    for q in questions:
+        text = f"{q['topic']} {q['question']}"
+        vec = vectorizer.transform([text]).toarray()
+
+        x = np.hstack([vec, pref_vec])
+
+        recon = autoencoder.predict(x, verbose=0)
+        err = np.mean(np.square(x - recon))
+        difficulties.append((q, err))
+
+    return difficulties
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -39,11 +83,13 @@ def index():
 @app.route('/contribute', methods=['GET', 'POST'])
 def contribute():
     if request.method == 'POST':
+        topic = request.form.get('Topic').strip()
         question = request.form.get('question').strip()
         correct_answer = request.form.get('option0').strip()
         option1 = request.form.get('option1').strip()
         option2 = request.form.get('option2').strip()
         option3 = request.form.get('option3').strip()
+        difficulty = request.form.get('difficulty').strip()
 
         if not question:
             flash("Question cannot be empty.", "error")
@@ -78,10 +124,12 @@ def contribute():
 
         data["questions"].append({
             "q_id": q_id,
+            "topic": topic,
             "question": question,
             "options": options,
             "correct_option_index": 0,
-            "predicted_btl": btl
+            "predicted_btl": btl,
+            "difficulty": difficulty
         })
 
         with open(LIBRARY_FILE, "w") as f:
@@ -92,12 +140,55 @@ def contribute():
 
     return render_template('contribute.html')
 
+@app.route('/set_preference', methods=['GET', 'POST'])
+def set_preference():
+    global PREFERENCES
+    if request.method == 'POST':
+        # Save user preferences
+        prefs = {
+            "remembering": int(request.form.get("remembering")),
+            "understanding": int(request.form.get("understanding")),
+            "applying": int(request.form.get("applying")),
+            "analyzing": int(request.form.get("analyzing")),
+            "evaluating": int(request.form.get("evaluating")),
+            "creating": int(request.form.get("creating"))
+        }
+        session['preferences'] = prefs   # store in session
+        PREFERENCES = prefs     
+        session.pop("autoencoder_trained", None)# reset training when prefs change
+        return redirect(url_for('index'))
+    return render_template('set_preference.html')
+
+
+@app.route("/train_progress")
+def train_progress():
+    """AJAX poll route for showing training progress."""
+    # In this mock version just return 100% instantly
+    return jsonify({"progress": 100})
+
 @app.route("/start_quiz")
 def start_quiz():
-    selected = random.sample(QUESTIONS, min(25, len(QUESTIONS)))
-    order_ids = ",".join([q["q_id"] for q in selected])
+    prefs = session.get("preferences", None)
+    filtered_questions = QUESTIONS
 
-    started_at = int(time.time()) 
+    if prefs:  # if preferences exist, train once
+        if "autoencoder_trained" not in session:
+            autoencoder, _, vectorizer = train_autoencoder(prefs, QUESTIONS)
+            scored = compute_difficulty(autoencoder, vectorizer, prefs, QUESTIONS)
+
+            threshold = np.median([e for (_, e) in scored])
+            filtered_questions = [q for q, e in scored if e <= threshold]
+
+            session["autoencoder_trained"] = True
+            session["filtered_ids"] = [q["q_id"] for q in filtered_questions]
+        else:
+            filtered_ids = session.get("filtered_ids", [])
+            filtered_questions = [q for q in QUESTIONS if q["q_id"] in filtered_ids]
+
+    # Now randomly select from filtered
+    selected = random.sample(filtered_questions, min(25, len(filtered_questions)))
+    order_ids = ",".join([q["q_id"] for q in selected])
+    started_at = int(time.time())
 
     return redirect(url_for(
         "quiz_question",
@@ -220,8 +311,11 @@ def quiz_result():
 
     percentages = {}
     for btl, s in category_scores.items():
-        tot = max(1, s.get("total", 0))
-        percentages[btl] = round(100.0 * s.get("correct", 0) / tot, 2)
+        if isinstance(s, dict): 
+            tot = max(1, s.get("total", 0))
+            percentages[btl] = round(100.0 * s.get("correct", 0) / tot, 2)
+        else:  
+            percentages[btl] = s
 
     return render_template(
         "quiz_result.html",
