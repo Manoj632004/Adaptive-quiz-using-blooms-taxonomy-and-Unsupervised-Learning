@@ -20,9 +20,43 @@ The quiz system aims to:
 ## Approach
 
 ### 1. Data Representation
-### 2. Autoencoder for Difficulty Estimation
-### 3. Personalized Question Filtering
-### 4. Scoring & Feedback
+Each question is stored in a format containing:
+- topic → Subject area .
+- question → The actual text of the question.
+- options → Multiple-choice options.
+- correct_option_index → Ground-truth answer.
+- predicted_btl → Cognitive category (1–6) according to Bloom’s Taxonomy.
 
+For training, the question text and topic are concatenated and converted into vectors using TF-IDF vectorization.
+
+Learner preferences (self reported comfort levels across BTL levels) are represented as a 6-dimensional numeric vector.
+
+### 2. Autoencoder for Difficulty Estimation
+An autoencoder is trained on the combination of:
+- Question vector (semantic content).
+- Learner preference vector (cognitive comfort profile).
+
+The autoencoder attempts to reconstruct the input.
+
+Reconstruction error acts as a proxy for difficulty:
+- Low error → The question fits well with the learner’s profile (easier).
+- High error → The question is outside the learner’s comfort zone (harder).
+
+### 3. Personalized Question Filtering
+
+- The questions is vectorized and passed through the trained autoencoder.
+- Reconstruction error is computed for each question.
+- Questions are filtered by ...
+
+### 4. Scoring & Feedback
+The quiz results a -
+- Category-wise accuracy per Bloom’s Taxonomy level.
+- Overall performance percentage.
+- Comparison between predicted difficulty and actual performance.
+
+This feedback loop helps learners:
+- Understand where they stand.
+- Identify weak areas requiring more practice.
+- Progressively attempt higher-order questions when ready.
 
 ## Improvements to be made
