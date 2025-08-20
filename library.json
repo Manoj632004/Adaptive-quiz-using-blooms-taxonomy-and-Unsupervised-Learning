@@ -1,39 +1,1082 @@
 {
     "questions": [
-        {
-            "q_id": "q_1",
-            "question": "What type of language is python?",
-            "options": [
-                "OOP",
-                "Low Level",
-                "Static"
-            ],
-            "correct_option_index": 0,
-            "predicted_btl": 1
-        },
-        {
-            "q_id": "q_2",
-            "question": "How can you prematurely exit a loop using a specific keyword in Python?",
-            "options": [
-                "break",
-                "exit",
-                "quit",
-                "stop"
-            ],
-            "correct_option_index": 0,
-            "predicted_btl": 3
-        },
-        {
-            "q_id": "q_3",
-            "question": "What is the relationship between binary search trees and the concept of binary heaps?",
-            "options": [
-                "Both are types of binary trees.",
-                "BSTs are better for priority queues than heaps.",
-                "BSTs and heaps are the same.",
-                "Heaps are always implemented using trees."
-            ],
-            "correct_option_index": 0,
-            "predicted_btl": 3
-        }
+  {
+    "q_id": "q_1",
+    "topic": "Balanced Search Tree",
+    "question": "What is a balanced search tree and how does it differ from a binary search tree?",
+    "options": [
+      "A balanced search tree maintains minimal height for efficient operations, while a binary search tree does not guarantee balance",
+      "Both are the same",
+      "A balanced search tree stores only even numbers",
+      "A binary search tree is always balanced"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 1,
+    "difficulty": "2"
+  },
+  {
+    "q_id": "q_2",
+    "topic": "Binary Search Tree",
+    "question": "Can a binary search tree be empty?",
+    "options": [
+      "Yes, it can be empty when it has no nodes",
+      "No, it must always have at least one node",
+      "Yes, but only if it has a root node with null value",
+      "No, a tree cannot be empty"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 1,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "q_3",
+    "topic": "Self-balancing Trees",
+    "question": "What are self-balancing binary search trees?",
+    "options": [
+      "Binary search trees that adjust their height automatically to maintain efficiency",
+      "Binary search trees with duplicate elements",
+      "Trees that balance based on node weight",
+      "Trees that do not require balancing"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 1,
+    "difficulty": "2"
+  },
+  {
+    "q_id": "q_4",
+    "topic": "Python Basics",
+    "question": "How to install Python on Windows and set path variable?",
+    "options": [
+      "Download Python installer, run it, and enable 'Add Python to PATH' during installation",
+      "Only copy Python files to Program Files",
+      "Install Python without setting PATH, it works by default",
+      "Use pip install python"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 1,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "q_5",
+    "topic": "Python Basics",
+    "question": "What is the purpose and usage of the 'pass' statement in Python?",
+    "options": [
+      "It acts as a placeholder for future code, doing nothing when executed",
+      "It terminates the program",
+      "It skips the current iteration of a loop",
+      "It creates an empty variable"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 1,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "q_274",
+    "topic": "Python",
+    "question": "Does Python make use of access specifiers?",
+    "options": [
+      "No, Python does not have traditional access specifiers like private or protected.",
+      "Yes, Python has strict access specifiers similar to Java or C++.",
+      "Python only supports the 'private' access specifier.",
+      "Python only supports the 'protected' access specifier."
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 2,
+    "difficulty": "2"
+  },
+  {
+    "q_id": "q_281",
+    "topic": "Data Structures",
+    "question": "Herder node is used as sentinel in graphs or stacks?",
+    "options": [
+      "It is commonly used as a sentinel in linked lists.",
+      "It is used as a sentinel in graph traversal.",
+      "It is used as a sentinel in stack operations.",
+      "It is not used as a sentinel in data structures."
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 2,
+    "difficulty": "2"
+  },
+  {
+    "q_id": "q_284",
+    "topic": "Graph Theory",
+    "question": "Can a graph be called a map?",
+    "options": [
+      "No, a graph and a map are different concepts.",
+      "Yes, graph and map are exactly the same in data structures.",
+      "Graphs are sometimes called maps in certain programming contexts.",
+      "Graphs can only be considered maps if they are weighted."
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 2,
+    "difficulty": "2"
+  },
+  {
+    "q_id": "q_287",
+    "topic": "Graph Theory",
+    "question": "Is there a path between two nodes in this undirected graph?",
+    "options": [
+      "Yes, if the nodes belong to the same connected component.",
+      "No, undirected graphs do not support paths.",
+      "Paths exist only if the graph is weighted.",
+      "A path can exist only in directed graphs."
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 2,
+    "difficulty": "2"
+  },
+  {
+    "q_id": "q_291",
+    "topic": "Hashing",
+    "question": "Can we use hashing in games?",
+    "options": [
+      "Yes, hashing can be used in games for fast data retrieval, like storing game states or caching.",
+      "No, hashing is only used in databases, not games.",
+      "Hashing can be used in games only for encryption.",
+      "Games use only graphs and never hashing."
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 2,
+    "difficulty": "2"
+  },
+  {
+    "q_id": "q_309",
+    "topic": "Data Structures",
+    "question": "Can you explain the fundamental operations associated with a stack?",
+    "options": [
+      "Push, Pop, Peek/Top, and IsEmpty.",
+      "Insert, Delete, and Merge.",
+      "Add, Remove, and Search.",
+      "Initialize, Append, and Sort."
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 2,
+    "difficulty": "2"
+  },
+  {
+    "q_id": "500",
+    "topic": "Sorting",
+    "question": "How do I concatenate two lists?",
+    "options": [
+      "Using '+' operator",
+      "Using '-' operator",
+      "Using '/' operator",
+      "Using '%' operator"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 3,
+    "difficulty": "2"
+  },
+  {
+    "q_id": "506",
+    "topic": "Arrays",
+    "question": "Could you compare and contrast the time complexity of binary search in a sorted array with that in a binary search tree?",
+    "options": [
+      "Array: O(log n), BST: O(h)",
+      "Array: O(n), BST: O(log n)",
+      "Array: O(1), BST: O(n)",
+      "Array: O(h), BST: O(log n)"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 3,
+    "difficulty": "4"
+  },
+  {
+    "q_id": "422",
+    "topic": "Recursion",
+    "question": "How can binary search tree iterator be useful for efficiently iterating through elements in sorted order?",
+    "options": [
+      "By performing in-order traversal",
+      "By performing pre-order traversal",
+      "By performing post-order traversal",
+      "By performing random traversal"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 3,
+    "difficulty": "3"
+  },
+  {
+    "q_id": "554",
+    "topic": "Arrays",
+    "question": "What is a rolling hash and how is it used in data compression and string algorithms?",
+    "options": [
+      "It allows efficient substring comparison",
+      "It compresses images directly",
+      "It encrypts network packets",
+      "It sorts strings lexicographically"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 3,
+    "difficulty": "4"
+  },
+  {
+    "q_id": "521",
+    "topic": "Linked List",
+    "question": "Explain what are access specifiers in C++ class and what are the types?",
+    "options": [
+      "Public, Private, Protected",
+      "Public, Default, Global",
+      "Local, Static, Global",
+      "Protected, Default, Static"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 3,
+    "difficulty": "2"
+  },
+  {
+    "q_id": "556",
+    "topic": "Linked List",
+    "question": "Evaluate the ethical implications of using facial recognition technology for law enforcement and surveillance purposes.",
+    "options": [
+      "It raises concerns about privacy and misuse",
+      "It guarantees fairness and objectivity",
+      "It is always accurate and unbiased",
+      "It completely replaces human judgment"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 3,
+    "difficulty": "5"
+  },
+  {
+    "q_id": "452",
+    "topic": "Trees",
+    "question": "Explain what are the characteristics of class members in C++?",
+    "options": [
+      "They can be data members and member functions",
+      "They can only be variables",
+      "They can only be global functions",
+      "They are always static"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 3,
+    "difficulty": "2"
+  },
+  {
+    "q_id": "467",
+    "topic": "Arrays",
+    "question": "How do you handle exceptions and errors in Python using try-except blocks?",
+    "options": [
+      "By wrapping code in try and catching with except",
+      "By using only if-else",
+      "By using print statements only",
+      "By ignoring errors"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 3,
+    "difficulty": "2"
+  },
+  {
+    "q_id": "413",
+    "topic": "Sorting",
+    "question": "How to solve the traveling salesman problem using a brute-force algorithm?",
+    "options": [
+      "By checking all permutations of cities",
+      "By using greedy nearest neighbor",
+      "By applying binary search",
+      "By sorting the city list"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 3,
+    "difficulty": "5"
+  },
+  {
+    "q_id": "546",
+    "topic": "Arrays",
+    "question": "In a weighted graph, how would you modify Dijkstra's algorithm to work with negative edge weights or to find the shortest path in a graph with a negative cycle?",
+    "options": [
+      "Use Bellman-Ford algorithm",
+      "Use DFS only",
+      "Remove negative edges",
+      "Ignore cycles"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 3,
+    "difficulty": "4"
+  },
+  {
+    "q_id": "402",
+    "topic": "Sorting",
+    "question": "Critically analyze the challenges and benefits of implementing blockchain technology in the healthcare industry for managing electronic health records.",
+    "options": [
+      "It improves security but raises scalability and privacy issues",
+      "It eliminates all risks",
+      "It guarantees instant adoption",
+      "It makes healthcare free"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 3,
+    "difficulty": "5"
+  },
+  {
+    "q_id": "533",
+    "topic": "Other",
+    "question": "What's the relationship between tree height and the efficiency of operations?",
+    "options": [
+      "Smaller height generally improves efficiency",
+      "Larger height always improves efficiency",
+      "Height has no impact",
+      "Efficiency is always constant"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 3,
+    "difficulty": "2"
+  },
+  {
+    "q_id": "543",
+    "topic": "Recursion",
+    "question": "Analyze the impact of algorithmic bias on the fairness and inclusivity of machine learning models in hiring practices.",
+    "options": [
+      "It may lead to unfair and discriminatory decisions",
+      "It guarantees objectivity",
+      "It removes human bias completely",
+      "It improves inclusivity by default"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 3,
+    "difficulty": "5"
+  },
+  {
+    "q_id": "530",
+    "topic": "Arrays",
+    "question": "Analyze the ethical dilemmas associated with the development and deployment of autonomous drones for surveillance and reconnaissance missions.",
+    "options": [
+      "They pose privacy and accountability concerns",
+      "They eliminate ethical issues",
+      "They are always unbiased",
+      "They guarantee human safety"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 3,
+    "difficulty": "5"
+  },
+  {
+    "q_id": "382",
+    "topic": "Arrays",
+    "question": "Analyze the trade-offs between using rule-based systems and machine learning approaches for decision-making in expert systems.",
+    "options": [
+      "Rule-based are interpretable, ML is adaptive",
+      "Both are identical",
+      "Rule-based is always better",
+      "ML is always error-free"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 3,
+    "difficulty": "4"
+  },
+  {
+    "q_id": "555",
+    "topic": "Arrays",
+    "question": "Propose innovative solutions for securing wireless networks against advanced persistent threats and evaluate their effectiveness.",
+    "options": [
+      "Use multi-layered encryption and intrusion detection",
+      "Ignore security risks",
+      "Rely on weak passwords",
+      "Disable encryption"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 3,
+    "difficulty": "5"
+  },
+  {
+    "q_id": "556",
+    "topic": "Sorting",
+    "question": "Explain what are infix, prefix, and postfix expressions?",
+    "options": [
+      "They are notations to represent expressions",
+      "They are sorting algorithms",
+      "They are encryption methods",
+      "They are memory allocation strategies"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 3,
+    "difficulty": "3"
+  },
+  {
+    "q_id": "996",
+    "topic": "Sorting",
+    "question": "Which of the following is the primary goal of conducting usability testing in software applications?",
+    "options": [
+      "To enhance user experience and satisfaction",
+      "To measure only the system performance speed",
+      "To verify only the correctness of algorithms",
+      "To test network latency under heavy load"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 6,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "997",
+    "topic": "Arrays",
+    "question": "In cloud computing, which approach helps optimize resource provisioning based on dynamic workload patterns?",
+    "options": [
+      "Static resource allocation",
+      "Random resource distribution",
+      "Dynamic optimization algorithms",
+      "Manual scheduling by administrators"
+    ],
+    "correct_option_index": 2,
+    "predicted_btl": 6,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "998",
+    "topic": "Sorting",
+    "question": "Why would industries implement edge computing in remote environments?",
+    "options": [
+      "To enable real-time monitoring and control",
+      "To increase cloud dependency",
+      "To reduce network bandwidth requirements only",
+      "To replace all central servers with IoT devices"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 6,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "991",
+    "topic": "Linked List",
+    "question": "How can blockchain be applied to supply chain management?",
+    "options": [
+      "To ensure integrity and transparency of transactions",
+      "To reduce physical storage needs",
+      "To eliminate demand forecasting",
+      "To encrypt passwords in databases"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 6,
+    "difficulty": "2"
+  },
+  {
+    "q_id": "1156",
+    "topic": "Linked List",
+    "question": "What is the main objective of designing a data backup and recovery solution?",
+    "options": [
+      "To protect critical business information against data loss",
+      "To reduce the cost of storage hardware",
+      "To increase internet bandwidth",
+      "To optimize sorting algorithms"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 6,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "1016",
+    "topic": "Recursion",
+    "question": "Which of the following best describes the goal of a framework that detects and mitigates software vulnerabilities in real-time?",
+    "options": [
+      "To enhance system security across diverse programming languages",
+      "To reduce the execution time of recursive algorithms",
+      "To improve only hardware performance",
+      "To detect syntax errors during compilation"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 6,
+    "difficulty": "3"
+  },
+  {
+    "q_id": "1030",
+    "topic": "Recursion",
+    "question": "Why would an algorithm generate synthetic training data for deep learning models?",
+    "options": [
+      "To augment limited datasets and improve training",
+      "To reduce computational complexity",
+      "To remove all bias automatically",
+      "To replace pre-trained models"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 6,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "1125",
+    "topic": "Trees",
+    "question": "Which of the following is a potential use of machine learning in healthcare?",
+    "options": [
+      "Enhancing predictive analytics for patient diagnosis and treatment",
+      "Replacing all doctors with AI systems",
+      "Only storing patient data efficiently",
+      "Encrypting patient records using hashing"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 6,
+    "difficulty": "2"
+  },
+  {
+    "q_id": "1067",
+    "topic": "Recursion",
+    "question": "What is the main purpose of integrating terahertz communication technology into wireless networks?",
+    "options": [
+      "To enable high-speed data transmission in indoor environments",
+      "To reduce the size of physical servers",
+      "To improve recursion depth in algorithms",
+      "To eliminate the need for 5G technology"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 6,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "1110",
+    "topic": "Linked List",
+    "question": "Which technology enables an intelligent virtual assistant to provide personalized customer support?",
+    "options": [
+      "Natural language processing",
+      "Static code analysis",
+      "Sorting algorithms",
+      "File compression techniques"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 6,
+    "difficulty": "3"
+  },
+  {
+    "q_id": "1137",
+    "topic": "Linked List",
+    "question": "Enhancing data visualization in business analytics tools primarily aims to:",
+    "options": [
+      "Facilitate better insights and decision-making",
+      "Replace relational databases entirely",
+      "Encrypt sensitive data automatically",
+      "Speed up recursion-based computations"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 6,
+    "difficulty": "3"
+  },
+  {
+    "q_id": "994",
+    "topic": "Sorting",
+    "question": "What is the primary goal of automatically classifying and prioritizing cybersecurity incidents?",
+    "options": [
+      "To address threats based on severity and potential business impact",
+      "To replace all intrusion detection systems",
+      "To reduce the complexity of sorting algorithms",
+      "To train only machine learning models for image data"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 6,
+    "difficulty": "3"
+  },
+  {
+    "q_id": "1104",
+    "topic": "Other",
+    "question": "Which strategy would best optimize the performance of distributed databases in large-scale web applications?",
+    "options": [
+      "Improving data distribution and query optimization",
+      "Using recursion for query evaluation",
+      "Limiting the database size to a single server",
+      "Encrypting all records with blockchain"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 6,
+    "difficulty": "3"
+  },
+  {
+    "q_id": "992",
+    "topic": "Arrays",
+    "question": "How can AI and robotics improve warehouse management processes?",
+    "options": [
+      "By automating and optimizing warehouse operations",
+      "By replacing databases with arrays",
+      "By increasing recursion depth in algorithms",
+      "By reducing memory consumption in linked lists"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 6,
+    "difficulty": "2"
+  },
+  {
+    "q_id": "1013",
+    "topic": "Other",
+    "question": "Which is the main objective of optimizing database indexing in distributed systems?",
+    "options": [
+      "To minimize query response time",
+      "To improve recursion performance",
+      "To enhance only memory storage capacity",
+      "To classify data using decision trees"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 6,
+    "difficulty": "3"
+  },
+  {
+    "q_id": "1133",
+    "topic": "Trees",
+    "question": "What is the purpose of incorporating biometric data in mobile app authentication?",
+    "options": [
+      "To enhance security for user authentication",
+      "To reduce recursion depth in algorithms",
+      "To optimize sorting speed",
+      "To improve only UI design"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 6,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "1129",
+    "topic": "Sorting",
+    "question": "Which of the following best describes a decentralized application (dApp)?",
+    "options": [
+      "An application that leverages blockchain for peer-to-peer transactions",
+      "A centralized program controlled by a single server",
+      "A mobile app that sorts data recursively",
+      "A web application without authentication"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 6,
+    "difficulty": "3"
+  },
+  {
+    "q_id": "4",
+    "topic": "Recursion",
+    "question": "Compare the features and implications of implementing machine learning in edge computing versus cloud computing.",
+    "options": [
+      "Edge computing offers lower latency but limited resources, while cloud computing provides scalability with higher latency.",
+      "Edge computing is always more secure than cloud computing.",
+      "Cloud computing completely eliminates the need for edge devices.",
+      "Both edge and cloud computing provide identical cost structures."
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 4,
+    "difficulty": "3"
+  },
+  {
+    "q_id": "758",
+    "topic": "Arrays",
+    "question": "Compare the advantages of using Scrum versus Kanban frameworks in managing software projects.",
+    "options": [
+      "Scrum provides fixed sprints and roles, while Kanban emphasizes continuous flow and flexibility.",
+      "Kanban requires daily standups while Scrum does not.",
+      "Scrum completely eliminates task prioritization unlike Kanban.",
+      "Kanban strictly mandates sprint planning sessions."
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 4,
+    "difficulty": "2"
+  },
+  {
+    "q_id": "749",
+    "topic": "Sorting",
+    "question": "Software Testing and Quality Assurance",
+    "options": [
+      "Software testing ensures product reliability and quality assurance focuses on process improvement.",
+      "Quality assurance only deals with writing code.",
+      "Software testing guarantees zero defects in all products.",
+      "Both are unrelated concepts in software development."
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 4,
+    "difficulty": "2"
+  },
+  {
+    "q_id": "634",
+    "topic": "Arrays",
+    "question": "Write a program in Python to produce a star triangle.",
+    "options": [
+      "Using nested loops where the outer loop controls rows and the inner loop prints stars.",
+      "Using a while loop without conditions.",
+      "By printing a single '*' repeatedly.",
+      "With only recursion and no loops."
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 4,
+    "difficulty": "3"
+  },
+  {
+    "q_id": "746",
+    "topic": "Arrays",
+    "question": "Evaluate the effectiveness of using simulation environments versus real-world testing for robot deployment.",
+    "options": [
+      "Simulations are cost-effective and safe, while real-world testing ensures practical reliability.",
+      "Real-world testing is unnecessary if simulations are used.",
+      "Simulation environments always guarantee identical real-world performance.",
+      "Both approaches require identical resources and risks."
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 4,
+    "difficulty": "3"
+  },
+  {
+    "q_id": "584",
+    "topic": "Sorting",
+    "question": "Evaluate the effectiveness of using machine learning algorithms for detecting and preventing cyberattacks in real-time.",
+    "options": [
+      "Machine learning can detect anomalies quickly, though it may face challenges with false positives.",
+      "Machine learning eliminates all types of cyberattacks permanently.",
+      "Cyberattack prevention does not benefit from machine learning.",
+      "Machine learning always requires manual intervention to work."
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 4,
+    "difficulty": "3"
+  },
+  {
+    "q_id": "699",
+    "topic": "Trees",
+    "question": "Evaluate the effectiveness of various authentication methods (OAuth, JWT, API keys) in securing IoT devices.",
+    "options": [
+      "OAuth provides delegated access, JWT ensures stateless authentication, and API keys offer simplicity with weaker security.",
+      "All three authentication methods offer identical levels of security.",
+      "OAuth is completely insecure compared to JWT.",
+      "API keys are the only method suitable for IoT security."
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 4,
+    "difficulty": "3"
+  },
+  {
+    "q_id": "614",
+    "topic": "Trees",
+    "question": "Compare and contrast different methods for secure authentication in wireless communication systems and analyze their vulnerabilities.",
+    "options": [
+      "Password-based methods are simple but weak, while certificate-based and biometric methods improve security but add complexity.",
+      "All authentication methods provide the same level of vulnerability.",
+      "Biometric authentication has no vulnerabilities.",
+      "Wireless authentication requires no security measures."
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 4,
+    "difficulty": "3"
+  },
+  {
+    "q_id": "669",
+    "topic": "Arrays",
+    "question": "Analyze the effectiveness of using HTTP/2 compared to HTTP/1.1 for improving web application performance.",
+    "options": [
+      "HTTP/2 improves speed with multiplexing and header compression compared to HTTP/1.1.",
+      "HTTP/1.1 is always faster than HTTP/2.",
+      "HTTP/2 does not offer any improvements over HTTP/1.1.",
+      "Both protocols provide identical network efficiency."
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 4,
+    "difficulty": "2"
+  },
+  {
+    "q_id": "723",
+    "topic": "Recursion",
+    "question": "Compare the performance of different sorting algorithms (quick sort vs. merge sort) in various scenarios.",
+    "options": [
+      "Quick sort is faster on average cases, while merge sort guarantees O(n log n) in all cases.",
+      "Merge sort is always faster than quick sort.",
+      "Quick sort is only used for small arrays.",
+      "Both algorithms always run in O(n^2)."
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 4,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "703",
+    "topic": "Other",
+    "question": "Analyze the effectiveness of containerization (Docker) versus virtualization (VMware) for cloud application management.",
+    "options": [
+      "Containers are lightweight and efficient, while virtualization offers stronger isolation at higher overhead.",
+      "Virtualization is always faster and lighter than containers.",
+      "Containers and virtualization are identical technologies.",
+      "Both approaches require the same hardware resources and performance."
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 4,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "713",
+    "topic": "Linked List",
+    "question": "Compare the advantages and limitations of TCP versus UDP for network communications.",
+    "options": [
+      "TCP ensures reliability with connection overhead, while UDP is lightweight and faster without guarantees.",
+      "TCP is always faster than UDP.",
+      "UDP provides reliability and error correction unlike TCP.",
+      "TCP and UDP are identical in their functioning."
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 4,
+    "difficulty": "3"
+  },
+  {
+    "q_id": "633",
+    "topic": "Recursion",
+    "question": "Are the print syntax the same in every programming language?",
+    "options": [
+      "No, print syntax varies across languages (e.g., Python uses print(), C uses printf).",
+      "Yes, all languages use print() function.",
+      "Printing is only supported in Python.",
+      "Print syntax is identical in compiled and interpreted languages."
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 4,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "687",
+    "topic": "Recursion",
+    "question": "Compare the effectiveness of decision trees versus support vector machines in classification tasks.",
+    "options": [
+      "Decision trees are interpretable and handle categorical data well, while SVMs perform better on high-dimensional data.",
+      "SVMs are always more accurate than decision trees.",
+      "Decision trees require high-dimensional data to function.",
+      "Both algorithms always produce identical results."
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 4,
+    "difficulty": "3"
+  },
+  {
+    "q_id": "q_5_1",
+    "topic": "Arrays",
+    "question": "How to convert a BST into a Greater Sum Tree without using extra space?",
+    "options": [
+      "Perform a reverse inorder traversal and keep a running sum",
+      "Use level order traversal",
+      "Convert BST to array first",
+      "Use recursion with extra memory"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 5,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "q_5_2",
+    "topic": "Recursion",
+    "question": "What is the concept of memoization in recursion, and how can it improve the efficiency of certain recursive algorithms?",
+    "options": [
+      "Memoization stores results of subproblems to avoid recomputation",
+      "It increases recursion depth",
+      "It reduces space complexity only",
+      "It eliminates recursion entirely"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 5,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "q_5_3",
+    "topic": "Trees",
+    "question": "Python provides various libraries and frameworks for data analysis and scientific computing, such as NumPy, pandas, and SciPy.",
+    "options": [
+      "NumPy, pandas, and SciPy are commonly used for data analysis and scientific computing",
+      "They are used for building websites",
+      "They are only used for visualization",
+      "They replace Python’s standard library"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 5,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "q_5_4",
+    "topic": "Arrays",
+    "question": "Judge the effectiveness of a machine learning model for sentiment analysis based on its accuracy and generalization performance.",
+    "options": [
+      "Evaluate accuracy and generalization to judge effectiveness",
+      "Check training data size only",
+      "Use preprocessing steps only",
+      "Look at runtime efficiency only"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 5,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "q_5_5",
+    "topic": "Arrays",
+    "question": "What are the trade-offs between using an explicit \"previous\" pointer and a \"reverse\" pointer when reversing a doubly linked list?",
+    "options": [
+      "Explicit previous pointer uses more memory but simplifies traversal",
+      "Reverse pointer improves space efficiency but harder to maintain",
+      "Both provide identical performance",
+      "Neither impacts complexity"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 5,
+    "difficulty": "3"
+  },
+  {
+    "q_id": "q_5_6",
+    "topic": "Sorting",
+    "question": "How can you determine whether a given binary tree is a valid binary search tree?",
+    "options": [
+      "Check inorder traversal is sorted",
+      "Check only left child values",
+      "Check only right child values",
+      "Ensure all leaves are balanced"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 5,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "q_5_7",
+    "topic": "Other",
+    "question": "How could you implement a doubly linked list that maintains a sliding window of a fixed size efficiently?",
+    "options": [
+      "Use a queue-like structure with head/tail adjustments",
+      "Convert to circular array",
+      "Use recursion for insertions",
+      "Use only singly linked list"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 5,
+    "difficulty": "2"
+  },
+  {
+    "q_id": "q_5_8",
+    "topic": "Arrays",
+    "question": "What are the advantages and disadvantages of using a doubly linked list over a singly linked list?",
+    "options": [
+      "Doubly linked list allows bidirectional traversal but uses extra memory",
+      "Doubly linked list is always faster",
+      "Singly linked list supports constant-time search",
+      "Singly linked list allows backward traversal"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 5,
+    "difficulty": "3"
+  },
+  {
+    "q_id": "q_5_9",
+    "topic": "Trees",
+    "question": "Assess the feasibility of implementing blockchain technology for ensuring the integrity and transparency of supply chain management.",
+    "options": [
+      "Blockchain can provide immutability and transparency for supply chains",
+      "Blockchain removes the need for all data storage",
+      "Blockchain only works for financial systems",
+      "Blockchain increases transaction speed always"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 5,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "q_5_10",
+    "topic": "Recursion",
+    "question": "Debate the ethical implications of using artificial intelligence algorithms for automated decision-making in healthcare diagnostics.",
+    "options": [
+      "AI can improve efficiency but raises concerns of bias and accountability",
+      "AI decisions are always unbiased",
+      "Ethics are not relevant to healthcare AI",
+      "AI eliminates doctors entirely"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 5,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "q_5_11",
+    "topic": "Linked List",
+    "question": "Debate the ethical implications of using artificial intelligence algorithms for autonomous weapons systems in military operations.",
+    "options": [
+      "AI in weapons raises accountability and humanitarian concerns",
+      "AI makes wars completely ethical",
+      "Weapons systems don’t require ethical debates",
+      "AI fully replaces human decision in wars without issues"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 5,
+    "difficulty": "3"
+  },
+  {
+    "q_id": "q_5_12",
+    "topic": "Sorting",
+    "question": "Assess the efficiency of a blockchain-based smart contract platform for automating business processes and transactions.",
+    "options": [
+      "Blockchain smart contracts provide automation but may face scalability issues",
+      "Blockchain always ensures maximum speed",
+      "Smart contracts eliminate need for programming",
+      "Blockchain guarantees no energy use"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 5,
+    "difficulty": "2"
+  },
+  {
+    "q_id": "q_5_13",
+    "topic": "Recursion",
+    "question": "What are the different cases to consider when deleting a node in a binary search tree?",
+    "options": [
+      "No child, one child, or two children cases",
+      "Only deletion of root",
+      "Only deletion of leaf nodes",
+      "Randomly remove nodes"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 5,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "q_5_14",
+    "topic": "Recursion",
+    "question": "An IoT (Internet of Things) startup is assessing the security vulnerabilities of smart home devices connected to its platform.",
+    "options": [
+      "Evaluate encryption, authentication, and network vulnerabilities",
+      "Check device colors",
+      "Only test device speed",
+      "Ignore external connections"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 5,
+    "difficulty": "2"
+  },
+  {
+    "q_id": "q_5_15",
+    "topic": "Sorting",
+    "question": "Can you provide examples of algorithms or strategies for converting a sorted array into a balanced binary search tree?",
+    "options": [
+      "Use divide and conquer with middle element as root",
+      "Insert sequentially",
+      "Convert array to linked list first",
+      "Use only linear search"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 5,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "q_5_16",
+    "topic": "Sorting",
+    "question": "What is inheritance in Python, and how does it facilitate code reuse and organization?",
+    "options": [
+      "Inheritance allows one class to reuse attributes and methods of another",
+      "Inheritance reduces execution time",
+      "Inheritance is only for variables",
+      "Inheritance removes need for functions"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 5,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "q_5_17",
+    "topic": "Recursion",
+    "question": "Debate the ethical considerations of using autonomous vehicles in terms of safety, liability, and societal impact.",
+    "options": [
+      "Autonomous vehicles raise issues of safety, liability, and ethics",
+      "Autonomous vehicles eliminate accidents completely",
+      "Ethics are irrelevant to autonomous driving",
+      "Liability is always clear with AI driving"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 5,
+    "difficulty": "1"
+  },
+  {
+    "q_id": "q_5_18",
+    "topic": "Sorting",
+    "question": "Can you explain how doubly linked lists can be used in LRU (Least Recently Used) cache replacement policies?",
+    "options": [
+      "Doubly linked list allows O(1) insertion and deletion for LRU",
+      "Use only array shifting for LRU",
+      "LRU does not require linked lists",
+      "Recursion handles LRU efficiently"
+    ],
+    "correct_option_index": 0,
+    "predicted_btl": 5,
+    "difficulty": "3"
+  }
     ]
 }
