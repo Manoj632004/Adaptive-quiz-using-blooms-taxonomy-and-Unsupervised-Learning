@@ -58,7 +58,6 @@ This feedback loop helps learners:
 - Identify weak areas requiring more practice.
 - Progressively attempt higher-order questions when ready.
 
-## Evaluation
-The core model used for predicting the difficulty or the possibility of user gegtting it wrong was autoencoder which has performed with an accruacy of 
+## Evaluation 
 
 ## Improvements to be made
