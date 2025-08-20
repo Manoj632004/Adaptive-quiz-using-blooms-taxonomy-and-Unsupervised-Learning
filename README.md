@@ -46,17 +46,19 @@ Reconstruction error acts as a proxy for difficulty:
 
 - The questions is vectorized and passed through the trained autoencoder.
 - Reconstruction error is computed for each question.
-- Questions are filtered by ...
+- Questions are filtered by median of predicted scores among all questions. Then keep only those questions whose score is less than or equal to the median.
 
 ### 4. Scoring & Feedback
 The quiz results a -
 - Category-wise accuracy per Bloom’s Taxonomy level.
-- Overall performance percentage.
-- Comparison between predicted difficulty and actual performance.
+- Overall performance percentage
 
 This feedback loop helps learners:
 - Understand where they stand.
 - Identify weak areas requiring more practice.
 - Progressively attempt higher-order questions when ready.
+
+## Evaluation
+The core model used for predicting the difficulty or the possibility of user gegtting it wrong was autoencoder which has performed with an accruacy of 
 
 ## Improvements to be made
