@@ -1,7 +1,7 @@
 # Adaptive-quiz-using-blooms-taxonomy-and-Unsupervised-Learning for Computer Science domain
 
 ## Overview
-This project implements an intelligent quiz system that personalizes question delivery based on both Bloom’s Taxonomy Levels (BTL) and the learner’s difficulty preferences. The system dynamically filters and recommends questions using an unsupervised learning approach (Autoencoder-based reconstruction error) to approximate difficulty levels.
+This project implements an intelligent quiz system that personalizes question delivery based on both Bloom’s Taxonomy Levels (BTL) and the learner’s difficulty preferences. The system dynamically filters and recommends questions using an unsupervised learning approach (Variational Autoencoder-based reconstruction error) to approximate difficulty levels. VAE is suitable for this task because its probabilistic latent space captures uncertainty in question representations, making reconstruction error a more reliable indicator of difficulty.
 By combining educational theory with machine learning, this project demonstrates a practical system for adaptive learning. It can be extended to real-world educational platforms to enhance engagement, fairness, and personalization in assessments.
 
 ## Motivation 
@@ -13,7 +13,7 @@ This creates a mismatch between a learner’s actual ability and the questions t
 
 The quiz system aims to:
 - Personalize assessments by aligning questions with each learner’s comfort level across Bloom’s Taxonomy.
-- Automate difficulty estimation using unsupervised machine learning (autoencoders), reducing reliance on manual labeling.
+- Automate difficulty estimation using unsupervised machine learning (VAEs), reducing reliance on manual labeling.
 - Promote adaptive learning — ensuring learners are neither under-challenged nor overwhelmed
 - Lay groundwork for scalable educational tools that could be integrated into e-learning platforms, tutoring systems, or exam preparation apps.
 
@@ -31,16 +31,14 @@ For training, the question text and topic are concatenated and converted into ve
 
 Learner preferences (self reported comfort levels across BTL levels) are represented as a 6-dimensional numeric vector.
 
-### 2. Autoencoder for Difficulty Estimation
-An autoencoder is trained on the combination of:
+### 2. Variational Autoencoder for Difficulty Estimation
+A VAE is trained on the combination of:
 - Question vector (semantic content).
 - Learner preference vector (cognitive comfort profile).
 
-The autoencoder attempts to reconstruct the input.
-
-Reconstruction error acts as a proxy for difficulty:
-- Low error → The question fits well with the learner’s profile (easier).
-- High error → The question is outside the learner’s comfort zone (harder).
+If the question aligns well with the learned latent space + preferences, reconstruction is good → low error.
+If not, reconstruction is poor → high error.
+So reconstruction error is being used as a difficulty scoring mechanism for questions.
 
 ### 3. Personalized Question Filtering
 
@@ -58,12 +56,49 @@ This feedback loop helps learners:
 - Identify weak areas requiring more practice.
 - Progressively attempt higher-order questions when ready.
 
-## Evaluation 
-
 ## Improvements to be made
-  shuffle the options each time user takes the quiz
-  improve UI elements
-  App lets create multiple quizes
+- shuffle the options each time user takes the quiz
+- improve UI elements
+- App lets create multiple quizes
+
+## Implementation
+
+### Files
+
+```model.py ```  - To test model predictions or reconstruction errors directly
+
+```app.py ```  - Flask application & quiz integration
+
+```models ``` - Pretrained models (.h5, .keras, .pkl)
+
+```static``` - CSS files
+
+```templates```  HTML files
+
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Manoj632004/Adaptive-quiz-using-blooms-taxonomy-and-Unsupervised-Learning.git
+cd Adaptive-quiz-using-blooms-taxonomy-and-Unsupervised-Learning
+```
+### 2. Create a Virtual Environment (Optional)
+```bash
+python -m venv venv
+```
+### 3. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+Pretrained Models: Make sure the models/ directory contains the pretrained .h5, .keras, and .pkl files.
+(Already provided in the repo.)
+
+### 4. Run the Flask App
+```bash
+python app.py
+```
+
+
+
   
   
   
