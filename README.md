@@ -1,4 +1,4 @@
-# BTL_Questionnaire_On_CS
+# Adaptive-quiz-using-blooms-taxonomy-and-Unsupervised-Learning for Computer Science domain
 
 ## Overview
 This project implements an intelligent quiz system that personalizes question delivery based on both Bloom’s Taxonomy Levels (BTL) and the learner’s difficulty preferences. The system dynamically filters and recommends questions using an unsupervised learning approach (Autoencoder-based reconstruction error) to approximate difficulty levels.
