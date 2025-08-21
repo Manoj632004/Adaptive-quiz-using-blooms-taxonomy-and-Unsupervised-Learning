@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-from sklearn.feature_extraction.text import TfidfVectorizer
 import json, random, time
 import joblib
 import numpy as np
-from tensorflow.keras import layers, models
 import jsonify
+import keras
+import tensorflow as tf
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key' 
@@ -17,6 +17,19 @@ with open(LIBRARY_FILE, "r", encoding="utf-8") as f:
     QUESTIONS = json.load(f)["questions"]
 
 pipeline = joblib.load("btl_model.pkl") 
+
+vectorizer = joblib.load("tdidfvectorizer.pkl")
+
+@keras.saving.register_keras_serializable()
+def sampling(args):
+    z_mean, z_log_var = args
+    batch = tf.shape(z_mean)[0]
+    dim = tf.shape(z_mean)[1]
+    epsilon = tf.random.normal(shape=(batch, dim))
+    return z_mean + tf.exp(0.5 * z_log_var) * epsilon
+
+encoder = keras.models.load_model("vae_encoder.keras", custom_objects={"sampling": sampling})
+decoder = keras.models.load_model("vae_decoder.keras")
 
 Q_BY_ID = {q["q_id"]: q for q in QUESTIONS}
 
@@ -33,44 +46,19 @@ def eval_answer(q, user_ans):
         return False
     return (user_ans or "").strip().lower() == correct_text
 
-def train_autoencoder(prefs, questions):
-    pref_vec = np.array([[prefs["remembering"], prefs["understanding"], prefs["applying"],
-                   prefs["analyzing"], prefs["evaluating"], prefs["creating"]]], dtype=np.float32)
-    
-    texts = [f"{q['topic']} {q['question']}" for q in questions]
-
-    vectorizer = TfidfVectorizer(max_features=500)
-    X_text = vectorizer.fit_transform(texts).toarray()
-
-    X = np.hstack([X_text, np.repeat(pref_vec, len(X_text), axis=0)])
-
-    input_dim = X.shape[1]
-    encoding_dim = 64
-
-    input_layer = layers.Input(shape=(input_dim,))
-    encoded = layers.Dense(encoding_dim, activation="relu")(input_layer)
-    decoded = layers.Dense(input_dim, activation="sigmoid")(encoded)
-
-    autoencoder = models.Model(input_layer, decoded)
-    autoencoder.compile(optimizer="adam", loss="mse")
-
-    autoencoder.fit(X, X, epochs=100, batch_size=1, verbose=0)
-
-    encoder = models.Model(input_layer, encoded)
-    return autoencoder, encoder, vectorizer
-
-def compute_difficulty(autoencoder, vectorizer, prefs, questions):
+def compute_difficulty(prefs, questions):
     difficulties = []
     pref_vec = np.array([[prefs["remembering"], prefs["understanding"], prefs["applying"],
                           prefs["analyzing"], prefs["evaluating"], prefs["creating"]]], dtype=np.float32)
 
     for q in questions:
-        text = f"{q['topic']} {q['question']}"
+        text = f"{q['topic']} {q['question']} difficulty: {q['difficulty']} BTL: {q['predicted_btl']}"
         vec = vectorizer.transform([text]).toarray()
-
         x = np.hstack([vec, pref_vec])
 
-        recon = autoencoder.predict(x, verbose=0)
+        z_mean, z_log_var, z = encoder.predict(x, verbose=0)
+        recon = decoder.predict(z, verbose=0)
+
         err = np.mean(np.square(x - recon))
         difficulties.append((q, err))
 
@@ -162,8 +150,7 @@ def set_preference():
 
 @app.route("/train_progress")
 def train_progress():
-    """AJAX poll route for showing training progress."""
-    # In this mock version just return 100% instantly
+    # just return 100% progress instantly
     return jsonify({"progress": 100})
 
 @app.route("/start_quiz")
@@ -173,8 +160,7 @@ def start_quiz():
 
     if prefs:  # if preferences exist, train once
         if "autoencoder_trained" not in session:
-            autoencoder, _, vectorizer = train_autoencoder(prefs, QUESTIONS)
-            scored = compute_difficulty(autoencoder, vectorizer, prefs, QUESTIONS)
+            scored = compute_difficulty(prefs, QUESTIONS)
 
             threshold = np.median([e for (_, e) in scored])
             filtered_questions = [q for q, e in scored if e <= threshold]
