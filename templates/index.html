@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CS Bloom's Taxonomy Quiz</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">Computer Science Quiz</h1>
+    <p class="subtitle">Assess your performance using Bloom’s Taxonomy Levels (BTL)</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes">
+        {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <div class="button-group">
+      <button onclick="location.href='/contribute'">Contribute Question</button>
+      <button onclick="location.href='/start_quiz'">Take Quiz</button>
+      <button onclick="location.href='/set_preference'">Set Preferences for Quiz</button>
+    </div>
+  </div>
+</body>
+</html>

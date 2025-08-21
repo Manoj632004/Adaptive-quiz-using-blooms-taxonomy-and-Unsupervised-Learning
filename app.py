@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import streamlit as st
 import json
 import os
@@ -9,22 +10,42 @@ pipeline = joblib.load("btl_model.pkl")
 =======
 from flask import Flask, render_template, request, redirect, url_for, flash
 import json, random, time, urllib.parse
+=======
+from flask import Flask, render_template, request, redirect, url_for, flash, session
+import json, random, time
+>>>>>>> 18b77fd554d67402d98ec1eb86f2fa3b73af95d9
 import joblib
+import numpy as np
+import jsonify
+import keras
+import tensorflow as tf
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key' 
 
 LIBRARY_FILE = "library.json"
-DURATION_SECONDS = 20 * 60  # 20 minutes
+DURATION_SECONDS = 20 * 60 
+PREFERENCES = None
 
-# Load question bank
 with open(LIBRARY_FILE, "r", encoding="utf-8") as f:
     QUESTIONS = json.load(f)["questions"]
 
 pipeline = joblib.load("btl_model.pkl") 
 >>>>>>> 2cd4b234e2723be6140396251f62da73042f60ba
 
-# Quick lookup by q_id
+vectorizer = joblib.load("tdidfvectorizer.pkl")
+
+@keras.saving.register_keras_serializable()
+def sampling(args):
+    z_mean, z_log_var = args
+    batch = tf.shape(z_mean)[0]
+    dim = tf.shape(z_mean)[1]
+    epsilon = tf.random.normal(shape=(batch, dim))
+    return z_mean + tf.exp(0.5 * z_log_var) * epsilon
+
+encoder = keras.models.load_model("vae_encoder.keras", custom_objects={"sampling": sampling})
+decoder = keras.models.load_model("vae_decoder.keras")
+
 Q_BY_ID = {q["q_id"]: q for q in QUESTIONS}
 
 <<<<<<< HEAD
@@ -86,24 +107,35 @@ elif choice == "📂 Question Library":
         st.info("No questions in the library yet.")
 =======
 def empty_btl_scores():
-    # BTL 1..6; use strings as keys for consistency
     return {str(i): {"correct": 0, "total": 0} for i in range(1, 7)}
 
 def eval_answer(q, user_ans):
-    """
-    Supports MCQ via correct_option_index, and text via 'answer' (optional).
-    Returns True/False.
-    """
     if q.get("correct_option_index") is not None:
-        # user_ans is expected to be an index (string)
         if user_ans is None or not str(user_ans).isdigit():
             return False
         return int(user_ans) == int(q["correct_option_index"])
-    # Fallback to text answer if provided
     correct_text = (q.get("answer") or "").strip().lower()
     if not correct_text:
         return False
     return (user_ans or "").strip().lower() == correct_text
+
+def compute_difficulty(prefs, questions):
+    difficulties = []
+    pref_vec = np.array([[prefs["remembering"], prefs["understanding"], prefs["applying"],
+                          prefs["analyzing"], prefs["evaluating"], prefs["creating"]]], dtype=np.float32)
+
+    for q in questions:
+        text = f"{q['topic']} {q['question']} difficulty: {q['difficulty']} BTL: {q['predicted_btl']}"
+        vec = vectorizer.transform([text]).toarray()
+        x = np.hstack([vec, pref_vec])
+
+        z_mean, z_log_var, z = encoder.predict(x, verbose=0)
+        recon = decoder.predict(z, verbose=0)
+
+        err = np.mean(np.square(x - recon))
+        difficulties.append((q, err))
+
+    return difficulties
 
 @app.route("/")
 def index():
@@ -112,11 +144,13 @@ def index():
 @app.route('/contribute', methods=['GET', 'POST'])
 def contribute():
     if request.method == 'POST':
+        topic = request.form.get('Topic').strip()
         question = request.form.get('question').strip()
         correct_answer = request.form.get('option0').strip()
         option1 = request.form.get('option1').strip()
         option2 = request.form.get('option2').strip()
         option3 = request.form.get('option3').strip()
+        difficulty = request.form.get('difficulty').strip()
 
         if not question:
             flash("Question cannot be empty.", "error")
@@ -151,10 +185,12 @@ def contribute():
 
         data["questions"].append({
             "q_id": q_id,
+            "topic": topic,
             "question": question,
             "options": options,
             "correct_option_index": 0,
-            "predicted_btl": btl
+            "predicted_btl": btl,
+            "difficulty": difficulty
         })
 
         with open(LIBRARY_FILE, "w") as f:
@@ -165,13 +201,53 @@ def contribute():
 
     return render_template('contribute.html')
 
+@app.route('/set_preference', methods=['GET', 'POST'])
+def set_preference():
+    global PREFERENCES
+    if request.method == 'POST':
+        # Save user preferences
+        prefs = {
+            "remembering": int(request.form.get("remembering")),
+            "understanding": int(request.form.get("understanding")),
+            "applying": int(request.form.get("applying")),
+            "analyzing": int(request.form.get("analyzing")),
+            "evaluating": int(request.form.get("evaluating")),
+            "creating": int(request.form.get("creating"))
+        }
+        session['preferences'] = prefs   # store in session
+        PREFERENCES = prefs     
+        session.pop("autoencoder_trained", None)# reset training when prefs change
+        return redirect(url_for('index'))
+    return render_template('set_preference.html')
+
+
+@app.route("/train_progress")
+def train_progress():
+    # just return 100% progress instantly
+    return jsonify({"progress": 100})
+
 @app.route("/start_quiz")
 def start_quiz():
-    # Pick 25 random questions; store ONLY their q_ids (stateless)
-    selected = random.sample(QUESTIONS, min(25, len(QUESTIONS)))
-    order_ids = ",".join([q["q_id"] for q in selected])
+    prefs = session.get("preferences", None)
+    filtered_questions = QUESTIONS
 
-    started_at = int(time.time())  # epoch seconds
+    if prefs:  # if preferences exist, train once
+        if "autoencoder_trained" not in session:
+            scored = compute_difficulty(prefs, QUESTIONS)
+
+            threshold = np.median([e for (_, e) in scored])
+            filtered_questions = [q for q, e in scored if e <= threshold]
+
+            session["autoencoder_trained"] = True
+            session["filtered_ids"] = [q["q_id"] for q in filtered_questions]
+        else:
+            filtered_ids = session.get("filtered_ids", [])
+            filtered_questions = [q for q in QUESTIONS if q["q_id"] in filtered_ids]
+
+    # Now randomly select from filtered
+    selected = random.sample(filtered_questions, min(25, len(filtered_questions)))
+    order_ids = ",".join([q["q_id"] for q in selected])
+    started_at = int(time.time())
 
     return redirect(url_for(
         "quiz_question",
@@ -189,7 +265,7 @@ def quiz_question():
     q_index = int(request.args["q_index"])
     correct_count = int(request.args["correct_count"])
     total_count = int(request.args["total_count"])
-    category_scores = request.args["category_scores"]  # JSON string
+    category_scores = request.args["category_scores"] 
     questions_order = request.args["questions_order"]
     started_at = int(request.args["started_at"])
     duration = int(request.args["duration"])
@@ -198,11 +274,9 @@ def quiz_question():
     q_id = order_list[q_index]
     question_obj = Q_BY_ID[q_id]
 
-    # Backend-enforced remaining time
     now = int(time.time())
     remaining_time = max(0, duration - (now - started_at))
 
-    # If time already up, finish immediately
     if remaining_time <= 0:
         return redirect(url_for(
             "quiz_result",
@@ -230,7 +304,6 @@ def quiz_question():
 
 @app.route("/take_quiz", methods=["POST"])
 def take_quiz():
-    # Read incoming fields
     q_index = int(request.form["q_index"])
     correct_count = int(request.form["correct_count"])
     total_count = int(request.form["total_count"])
@@ -243,11 +316,9 @@ def take_quiz():
     q_id = order_list[q_index]
     question_obj = Q_BY_ID[q_id]
 
-    # Enforce time on backend
     now = int(time.time())
     remaining_time = max(0, duration - (now - started_at))
 
-    # If time up, skip evaluation and finish
     if remaining_time <= 0:
         return redirect(url_for(
             "quiz_result",
@@ -257,12 +328,10 @@ def take_quiz():
             timed_out=1
         ))
 
-    # Evaluate this question
     user_ans = request.form.get("answer")
     btl_key = str(question_obj.get("predicted_btl", "Unknown"))
 
     total_count += 1
-    # Ensure key exists even if unexpected BTL appears
     if btl_key not in category_scores:
         category_scores[btl_key] = {"correct": 0, "total": 0}
 
@@ -271,7 +340,6 @@ def take_quiz():
         category_scores[btl_key]["correct"] += 1
     category_scores[btl_key]["total"] += 1
 
-    # Next or Finish
     q_index += 1
     if q_index >= len(order_list):
         return redirect(url_for(
@@ -282,7 +350,6 @@ def take_quiz():
             timed_out=0
         ))
 
-    # Continue to next question; keep same started_at/duration (no reset)
     return redirect(url_for(
         "quiz_question",
         q_index=q_index,
@@ -301,11 +368,13 @@ def quiz_result():
     category_scores = json.loads(request.args["category_scores"])
     timed_out = int(request.args.get("timed_out", 0))
 
-    # Compute percentages for convenience
     percentages = {}
     for btl, s in category_scores.items():
-        tot = max(1, s.get("total", 0))
-        percentages[btl] = round(100.0 * s.get("correct", 0) / tot, 2)
+        if isinstance(s, dict): 
+            tot = max(1, s.get("total", 0))
+            percentages[btl] = round(100.0 * s.get("correct", 0) / tot, 2)
+        else:  
+            percentages[btl] = s
 
     return render_template(
         "quiz_result.html",

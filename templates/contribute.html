@@ -30,6 +30,7 @@
     {% endwith %}
 
     <form method="POST">
+      <textarea name="Topic" rows="2" cols="50" placeholder="Enter Topic..."></textarea><br><br>
       <textarea name="question" rows="4" cols="50" placeholder="Enter your question..." required></textarea><br><br>
 
       <label>Correct Answer (Required):</label><br>
@@ -39,6 +40,9 @@
       <input type="text" name="option1" class="option-input" placeholder="Option 2"><br>
       <input type="text" name="option2" class="option-input" placeholder="Option 3"><br>
       <input type="text" name="option3" class="option-input" placeholder="Option 4"><br><br>
+
+      <label>Rate difficulty level:</label><br>
+      <input type="range" id="difficulty" name="difficulty" min="0" max="5">
 
       <button type="submit">Submit</button>
     </form>
