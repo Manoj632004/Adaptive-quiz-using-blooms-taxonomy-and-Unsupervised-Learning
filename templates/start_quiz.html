@@ -3,25 +3,7 @@
 <head>
   <title>Starting Quiz...</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <style>
-    #progress-container {
-      width: 50%;
-      background-color: #eee;
-      border-radius: 10px;
-      margin: 50px auto;
-      height: 30px;
-      position: relative;
-    }
-    #progress-bar {
-      height: 100%;
-      width: 0%;
-      background: #4caf50;
-      border-radius: 10px;
-      text-align: center;
-      color: white;
-      line-height: 30px;
-    }
-  </style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
   <h2 style="text-align:center;">Preparing Your Quiz...</h2>

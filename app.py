@@ -16,9 +16,9 @@ PREFERENCES = None
 with open(LIBRARY_FILE, "r", encoding="utf-8") as f:
     QUESTIONS = json.load(f)["questions"]
 
-pipeline = joblib.load("btl_model.pkl") 
+pipeline = joblib.load("models/btl_model.pkl") 
 
-vectorizer = joblib.load("tdidfvectorizer.pkl")
+vectorizer = joblib.load("models/tfidf_vectorizer.pkl")
 
 @keras.saving.register_keras_serializable()
 def sampling(args):
@@ -28,8 +28,8 @@ def sampling(args):
     epsilon = tf.random.normal(shape=(batch, dim))
     return z_mean + tf.exp(0.5 * z_log_var) * epsilon
 
-encoder = keras.models.load_model("vae_encoder.keras", custom_objects={"sampling": sampling})
-decoder = keras.models.load_model("vae_decoder.keras")
+encoder = keras.models.load_model("models/vae_encoder.keras", custom_objects={"sampling": sampling})
+decoder = keras.models.load_model("models/vae_decoder.keras")
 
 Q_BY_ID = {q["q_id"]: q for q in QUESTIONS}
 

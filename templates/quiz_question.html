@@ -2,21 +2,8 @@
 <html>
 <head>
     <title>Take Quiz</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <style>
-        .timer {
-            font-size: 18px;
-            font-weight: 700;
-            color: #b00020;
-            position: fixed;
-            top: 10px;
-            right: 16px;
-            background: #fff3cd;
-            border: 1px solid #ffeeba;
-            padding: 6px 10px;
-            border-radius: 6px;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
     <script>
         let remaining = {{ remaining_time | int }};
 
