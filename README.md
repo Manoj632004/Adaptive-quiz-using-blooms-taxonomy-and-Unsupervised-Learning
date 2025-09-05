@@ -59,6 +59,8 @@ This feedback loop helps learners:
 ## Improvements to be made
 - shuffle the options each time user takes the quiz
 - improve UI elements
+- store every quiz results of user and make comparison graphs
+- Enable different User logins
 - App lets create multiple quizes
 
 ## Implementation
